@@ -1,4 +1,8 @@
 import { useState } from 'react';
+import { of } from 'rxjs';
+import { ajax } from 'rxjs/ajax';
+import { map, catchError } from 'rxjs/operators';
+
 import './App.css';
 
 function App() {
@@ -15,25 +19,25 @@ function App() {
   }
   function sendApiRequest() {
     const requestOptions = {
+      url,
       method,
       headers: { 'Content-Type': 'application/json' },
       body: method === RequestMethod.GET ? null : body
   };
-    fetch(url, requestOptions)
-    .then(res => res.json())
-    .then(
-      (result) => {
-        setRequestResponse(JSON.stringify(result));
-      },
-      (error) => {
+    ajax(requestOptions).pipe(map(
+      res => setRequestResponse(JSON.stringify(res))
+      ),      
+      catchError(error => {
         setRequestResponse(JSON.stringify(error));
-      }
-    )
+        return of();
+      })
+    )    
+    .subscribe(res => setRequestResponse(JSON.stringify(res)))
   }
 
   return (
     <div className="App">
-      <body className="App-body">        
+      <div className="App-body">        
         <div className="App-form">
           <div className="App-field">
             <label className="App-label" htmlFor="url">Url</label>
@@ -43,7 +47,7 @@ function App() {
             <label className="App-label" htmlFor="method">Method</label>
             <select id="method"  className="App-input" value={method} onChange={e => setMethod(e.target.value)}>
               {Object.values(RequestMethod).map(value => {
-                return <option value={value}>{value}</option>;
+                return <option key={value} value={value}>{value}</option>;
               })}
             </select>
           </div>
@@ -57,7 +61,7 @@ function App() {
             <textarea id="result" className="App-textarea" rows={10} cols={80} defaultValue={requestResponse} />
           </div>
         </div>
-      </body>
+      </div>
     </div>
   );
 }

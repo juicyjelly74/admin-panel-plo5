@@ -1,4 +1,4 @@
-# Request form App
+# Request Form App
 
 ## Description
 This repository is a simple form which can send a request to entered url
