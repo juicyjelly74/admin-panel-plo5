@@ -33,7 +33,7 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">        
+      <body className="App-body">        
         <div className="App-form">
           <div className="App-field">
             <label className="App-label" htmlFor="url">Url</label>
@@ -57,7 +57,7 @@ function App() {
             <textarea id="result" className="App-textarea" rows={10} cols={80} defaultValue={requestResponse} />
           </div>
         </div>
-      </header>
+      </body>
     </div>
   );
 }
