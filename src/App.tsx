@@ -25,14 +25,16 @@ function App() {
       body: method === RequestMethod.GET ? null : body
   };
     ajax(requestOptions).pipe(map(
-      res => setRequestResponse(JSON.stringify(res))
-      ),      
+      res => {
+        setRequestResponse(JSON.stringify(res));
+        return of();
+      }),      
       catchError(error => {
         setRequestResponse(JSON.stringify(error));
         return of();
       })
     )    
-    .subscribe(res => setRequestResponse(JSON.stringify(res)))
+    .subscribe(() => {})
   }
 
   return (
@@ -58,7 +60,7 @@ function App() {
           <button className="App-button" onClick={sendApiRequest}>Send Request</button>
           <div className="App-field">
             <label className="App-label" htmlFor="result">Response</label>
-            <textarea id="result" className="App-textarea" rows={10} cols={80} defaultValue={requestResponse} />
+            <textarea id="result" className="App-textarea" rows={20} cols={80} defaultValue={requestResponse} />
           </div>
         </div>
       </div>
