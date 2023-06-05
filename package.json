@@ -14,7 +14,8 @@
     "typescript": "^4.9.5"
   },
   "scripts": {
-    "start": "npm install && set PORT=8080 && react-scripts start",
+    "install": "npm install && set PORT=8080 && react-scripts start",
+    "start": "set PORT=8080 && react-scripts start",
     "build": "react-scripts build"
   },
   "eslintConfig": {
